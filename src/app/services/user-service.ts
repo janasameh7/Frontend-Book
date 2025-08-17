@@ -11,15 +11,15 @@ export class UserService {
   private authService = inject(AuthService);
   private URL ="http://localhost:5000/users";
 
-  addMovieToFav(movieId: string): Observable<string[]>{
+  addBookToFav(bookId: string): Observable<string[]>{
     return this.authService.user.pipe(take(1), exhaustMap((user)=>{
       const headers = new HttpHeaders({
         Authorization: `Bearer ${user?.token}`,
       });
       return this.http
-      .post<any>(`${this.URL}/favoriteMovie`, {movieId}, {headers})
+      .post<any>(`${this.URL}/favoriteBook`, {bookId}, {headers})
       .pipe(map((response)=>{
-        return response.data.favMovies;
+        return response.data.favBooks;
       }))
      })
     );

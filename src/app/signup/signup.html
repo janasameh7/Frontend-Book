@@ -1,49 +1,105 @@
-<section>
-    <h2>Sign Up</h2>
-    <form #signUpForm="ngForm" (ngSubmit)="onSubmit()">
-        <div>
-            <label for="name">Name</label>
-            <input type="text" name="name" ngModel #nameRef="ngModel" required minlength="3"/>
-            @if (nameRef.invalid && nameRef.touched) {
-                <p>Name is required with minimum length</p>
-            }
-        </div>
-        <div>
-            <label for="email">Email</label>
-            <input type="email" name="email" ngModel #emailRef="ngModel" required email/>
-            @if (emailRef.invalid && emailRef.touched) {
-                <p>Valid Email is required</p>
-            }
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input type="password" name="password" ngModel #passwordRef="ngModel" required minlength="8"/>
-            @if (passwordRef.invalid && passwordRef.touched) {
-                <p>Password is required with minimum length</p>
-            }
-        </div>
-        <div>
-            <label for="confirmPassword">Confirm Password</label>
-            <input type="password" name="confirmPassword" ngModel #confirmPasswordRef="ngModel" required minlength="8"/>
-            @if (confirmPasswordRef.invalid && confirmPasswordRef.touched) {
-                <p>Confirm your password</p>
-            }
-            @if (passwordMisMatch) {
-                <p>Passwords do not match</p>
-            }
-        </div>
-        <div>
-            <label for="photo">Photo</label>
-            <input type="file" (change)="onFileSelected($event)" accept="image/*"/> <!-- Fixed accept attribute -->
-            @if (!selectedFileName) {
-                <p>*No File Chosen</p>
-            }
-        </div>
-        <button type="submit">
-            Create Account
-        </button>
-        @if (error) {
-            {{ error }}
-        }
-    </form>
-</section>
+<h2>Sign Up</h2>
+
+<form #signUpForm="ngForm" (ngSubmit)="onSubmit()" class="container form">
+  <div class="input-box">
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      #nameRef="ngModel"
+      [(ngModel)]="name"
+      required
+      minlength="2"
+      class="touched-form"
+      [class.touched-form]="nameRef.touched && nameRef.invalid"
+    />
+    @if (nameRef.invalid && nameRef.touched) {
+      <small>Name is required with minimum length</small>
+    }
+  </div>
+
+  <div class="input-box">
+    <label for="email">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      #emailRef="ngModel"
+      [(ngModel)]="email"
+      required
+      email
+      class="touched-form"
+      [class.touched-form]="emailRef.touched && emailRef.invalid"
+    />
+    @if (emailRef.invalid && emailRef.touched) {
+      <small>Valid Email is required</small>
+    }
+  </div>
+
+  <div class="input-box">
+    <label for="password">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      #passwordRef="ngModel"
+      [(ngModel)]="password"
+      required
+      minlength="8"
+      class="touched-form"
+      [class.touched-form]="passwordRef.touched && passwordRef.invalid"
+    />
+    @if (passwordRef.invalid && passwordRef.touched) {
+      <small>Password is required with minimum length</small>
+    }
+  </div>
+
+  <div class="input-box">
+    <label for="confirmPassword">Confirm Password</label>
+    <input
+      type="password"
+      id="confirmPassword"
+      name="confirmPassword"
+      #confirmPasswordRef="ngModel"
+      [(ngModel)]="confirmPassword"
+      required
+      class="touched-form"
+      [class.touched-form]="confirmPasswordRef.touched && confirmPasswordRef.invalid"
+    />
+    @if (confirmPasswordRef.invalid && confirmPasswordRef.touched) {
+      <small>Confirm your password</small>
+    }
+    @if (passwordMisMatch) {
+      <small>Passwords do not match</small>
+    }
+  </div>
+
+  <div class="input-box">
+    <label for="photo">Photo</label>
+    <input
+      type="file"
+      id="photo"
+      name="photo"
+      (change)="onFileSelected($event)"
+      class="touched-form"
+      [class.touched-form]="!selectedFileName && signUpForm.touched"
+    />
+    @if (!selectedFileName) {
+      <small>* No File Chosen</small>
+    } @else {
+      <small>Selected: {{ selectedFileName }}</small>
+    }
+  </div>
+
+  <button type="submit" class="submit-btn" [disabled]="signUpForm.invalid">Create Account</button>
+</form>
+
+@if (error) {
+  <div class="error-message">{{ error }}</div>
+}
+
+<div>
+  <button type="button" (click)="setForm()" class="submit-btn">Set Value</button>
+  <button type="button" (click)="patchForm()" class="submit-btn">Patch Value</button>
+</div>

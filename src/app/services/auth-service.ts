@@ -84,7 +84,7 @@ export class AuthService {
 
     const userData = JSON.parse(userDataString);
 
-    const u = new UserModel(userData.email, userData.id, userData._token, new Date (userData.__expiresIn));
+    const u = new UserModel(userData.email, userData.id, userData._token, new Date (userData.__expiresIn),userData.favBooks || []);
     if (u.token){
       this.user.next(u);
     }
