@@ -1,0 +1,45 @@
+/* .layout{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+}
+
+.content{
+    display:flex;
+    gap: 10px;
+}
+
+app-main{
+    flex: 3;
+}
+
+app-side{
+    flex:1;
+} */
+
+.active{
+    color: rgb(177, 105, 105);
+}
+
+.error{
+    background-color: rgb(241, 9, 9);
+}
+
+.product{
+    border: 2px solid red;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 500px;
+}
+
+.student{
+    border: 2px solid red;
+    padding: 10px;
+    margin-bottom: 15px;
+    width: 500px;
+}
+.popular{
+    background-color: greenyellow;
+}
+

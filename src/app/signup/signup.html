@@ -1,0 +1,49 @@
+<section>
+    <h2>Sign Up</h2>
+    <form #signUpForm="ngForm" (ngSubmit)="onSubmit()">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" ngModel #nameRef="ngModel" required minlength="3"/>
+            @if (nameRef.invalid && nameRef.touched) {
+                <p>Name is required with minimum length</p>
+            }
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" ngModel #emailRef="ngModel" required email/>
+            @if (emailRef.invalid && emailRef.touched) {
+                <p>Valid Email is required</p>
+            }
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" ngModel #passwordRef="ngModel" required minlength="8"/>
+            @if (passwordRef.invalid && passwordRef.touched) {
+                <p>Password is required with minimum length</p>
+            }
+        </div>
+        <div>
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" name="confirmPassword" ngModel #confirmPasswordRef="ngModel" required minlength="8"/>
+            @if (confirmPasswordRef.invalid && confirmPasswordRef.touched) {
+                <p>Confirm your password</p>
+            }
+            @if (passwordMisMatch) {
+                <p>Passwords do not match</p>
+            }
+        </div>
+        <div>
+            <label for="photo">Photo</label>
+            <input type="file" (change)="onFileSelected($event)" accept="image/*"/> <!-- Fixed accept attribute -->
+            @if (!selectedFileName) {
+                <p>*No File Chosen</p>
+            }
+        </div>
+        <button type="submit">
+            Create Account
+        </button>
+        @if (error) {
+            {{ error }}
+        }
+    </form>
+</section>

@@ -1,0 +1,55 @@
+<h2>🎞 Movie List</h2>
+<h2 class="title">Movie List</h2>
+<button class="add-btn" (click)="addMovie()">Add Movie</button>
+ 
+<div class="movie-grid">
+  @for (movie of movies; track movie._id; let i = $index) {
+  <div class="movie-card">
+    <img [src]='"http://localhost:5000/uploads/" + movie.coverImage' alt="{{ movie.name }}" class="movie-img" />
+ 
+    <div class="movie-info">
+      <h3>
+        {{ movie.name }} <span class="year">({{ movie.releaseYear }})</span>
+      </h3>
+      <p class="description">{{ movie.description }}</p>
+ 
+      <p><strong>Language:</strong> {{ movie.language }}</p>
+      <p><strong>Duration:</strong> {{ movie.duration }} mins</p>
+      <p>
+        <strong>Ratings:</strong>{{ movie.ratings }} / 5 ({{
+          movie.totalRatings
+        }}
+        reviews)
+      </p>
+      <p><strong>Genres:</strong> {{ movie.genres.join(", ") }}</p>
+      <p><strong>Directors:</strong> {{ movie.directors.join(", ") }}</p>
+      <p><strong>Actors:</strong> {{ movie.actors.join(", ") }}</p>
+      <p><strong>Release Date:</strong> {{ movie.releaseDate }}</p>
+      <p><strong>Price:</strong> ${{ movie.price }}</p>
+      <p>
+        <strong>Available:</strong>
+        <span
+          [class.available]="movie.isAvailable"
+          [class.unavailable]="!movie.isAvailable"
+        >
+          {{ movie.isAvailable ? "Yes" : "No" }}
+        </span>
+      </p>
+ 
+      <div class="btn-group">
+        @if (movie.trailerUrl) {
+        <a [href]="movie.trailerUrl" target="_blank" class="trailer-btn"
+          >Watch Trailer</a
+        >
+        }
+        <button class="update-btn" (click)="updateMovie(movie._id, i)">
+          Update
+        </button>
+        <button class="delete-btn" (click)="deleteMovie(movie._id, i)">
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

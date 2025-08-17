@@ -1,0 +1,131 @@
+<!-- Template Driven Form
+ <section class="container" [class.touched-form]="jobForm.touched">
+  <header>Job Application Form</header>
+ 
+  <form class="form"  #jobForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="column">
+      <div class="input-box">
+
+        <input type="text" placeholder="Full Name" name="fullname" #fname="ngModel" ngModel required/>
+        @if(fname.invalid && fname.touched){
+            <div>
+                <small>*Full name is required</small>
+            </div>
+        }
+      </div>
+ 
+      <div class="input-box">
+        <input type="text" placeholder="Position Applying For" name="position" ngModel required/>
+      </div>
+    </div>
+ 
+    <div class="input-box">
+      <input type="email" placeholder="Email Address" name="email"  #emailRef="ngModel" ngModel required/>
+      @if(emailRef.invalid && emailRef.touched){
+            <div>
+                <small>*Valid email is required</small>
+            </div>
+        }
+    </div>
+ 
+    <div class="column">
+      <div class="input-box">
+        <input type="number" placeholder="Phone Number" name="phone" ngModel/>
+      </div>
+      <div class="input-box">
+        <input type="date" placeholder="Available Start Date" name="startDate" ngModel />
+      </div>
+    </div>
+ 
+    <div class="input-box">
+      <input type="text" placeholder="LinkedIn Profile" name="Linkedin" ngModel />
+      <button class="btn-gen-username">Auto Fill from LinkedIn</button>
+    </div>
+ 
+    <div class="gender-box">
+      <h3>Employment Type</h3>
+      <div class="gender-option">
+        <div class="gender">
+          <input type="radio" id="full-time" name="employment" checked ngModel/>
+          <label for="full-time">Full-Time</label>
+        </div>
+        <div class="gender">
+          <input type="radio" id="part-time" name="employment" ngModel />
+          <label for="part-time">Part-Time</label>
+        </div>
+        <div class="gender">
+          <input type="radio" id="contract" name="employment" ngModel />
+          <label for="contract">Contract</label>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="input-box address" ngModelGroup="address" #addressGroup="ngModelGroup" >
+      <label>Address</label>
+      <input type="text" placeholder="Street Address" name="street1" ngModel required/>
+      <input type="text" placeholder="Street Address Line 2" name="street2" ngModel />
+      <div class="column">
+        <div class="select-box">
+          <select name="country">
+            <option hidden>Country</option>
+            <option>USA</option>
+            <option>UK</option>
+            <option>Canada</option>
+            <option>Australia</option>
+          </select>
+        </div>
+        <input type="text" placeholder="City" name="city" ngModel/>
+      </div>
+      <div class="column">
+        <input type="text" placeholder="State / Region" name="state" ngModel required/>
+        <input type="number"  placeholder="Postal Code" name="postalCode" ngModel/>
+      </div>
+      @if(addressGroup.invalid && addressGroup.touched){
+         <div>
+                <small>*Address is required</small>
+            </div>
+      }
+    </div>
+ 
+    <div class="input-box">
+      <textarea placeholder="Why should we hire you?" name="textarea" ngModel></textarea>
+    </div>
+ 
+    <input type="submit" value="Submit Application" class="submit-btn"
+     [disabled]="!jobForm.valid" 
+     [style.backgroundColor]="!jobForm.valid ? 'gray' :'red' "/>
+     <button type="button" (click)="setForm()"> Set Value</button>
+     <button type="button" (click)="patchForm()">Patch Value</button>
+  </form>
+</section> -->
+
+<!-- Template Driven Form -->
+<section class="container" [class.touched-form]="movieForm.touched">
+  <header>Movie Form</header>
+  
+  <form class="form" #movieForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="column">
+      <div class="input-box">
+        <input type="email" placeholder="Email Address" name="email" #emailRef="ngModel" ngModel required email />
+        @if (emailRef.invalid && emailRef.touched) {
+          <div>
+            <small>*Valid email is required</small>
+          </div>
+        }
+      </div>
+
+      <div class="input-box">
+        <input type="password" placeholder="Password" name="password" #passwordRef="ngModel" ngModel required minlength="8" />
+        @if (passwordRef.invalid && passwordRef.touched) {
+          <div>
+            <small>*Password must exceed 8 characters</small>
+          </div>
+        }
+      </div>
+    </div> 
+
+    <input type="submit" value="Submit Application" class="submit-btn" [disabled]="!movieForm.valid" [style.backgroundColor]="!movieForm.valid ? 'gray' : 'red'" />
+    <button type="button" (click)="setForm()">Set Value</button>
+    <button type="button" (click)="patchForm()">Patch Value</button>
+  </form>
+</section>

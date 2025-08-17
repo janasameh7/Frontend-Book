@@ -1,0 +1,18 @@
+nav{
+    background-color: aquamarine;
+    padding: 15px;
+}
+
+nav ul{
+ list-style: none; 
+ display: flex;
+ justify-content: center;
+ gap: 15px;
+
+}
+
+nav a{
+    text-decoration: none;
+    font-weight: bold;
+    color: black;
+}
