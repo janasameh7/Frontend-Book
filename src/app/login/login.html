@@ -1,4 +1,4 @@
-<h2>Login Form</h2>
+<h2>Login</h2>
 
 <form #loginForm="ngForm" (ngSubmit)="onSubmit()" class="container form">
   <div class="input-box">
@@ -7,15 +7,14 @@
       type="email"
       id="email"
       name="email"
-      [(ngModel)]="email"
+      ngModel
       #emailRef="ngModel"
       required
       email
-      class="touched-form"
-      [class.touched-form]="emailRef.touched && emailRef.invalid"
+
     />
     @if (emailRef.invalid && emailRef.touched) {
-      <small>* Valid email is required</small>
+      <small class="error">* Valid email is required</small>
     }
   </div>
 
@@ -25,26 +24,23 @@
       type="password"
       id="password"
       name="password"
-      [(ngModel)]="password"
+      ngModel
       #passwordRef="ngModel"
       required
       minlength="8"
-      class="touched-form"
-      [class.touched-form]="passwordRef.touched && passwordRef.invalid"
+      
     />
     @if (passwordRef.invalid && passwordRef.touched) {
-      <small>* Password must exceed 8 characters</small>
+      <small class="error">* Password must exceed 8 characters</small>
     }
   </div>
 
-  @if (isError) {
-    <div class="error-message">{{ errorMessage }}</div>
-  }
+ 
 
-  <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">Login</button>
+  <button type="submit" class="submit-btn" [disabled]="loginForm.invalid">{{ loading ? 'Loging in...' : 'Login' }}</button>
+
+  @if (serverError) {
+    <small class="server-error">{{ serverError }}</small>
+    }
 </form>
 
-<div>
-  <button type="button" (click)="setForm()" class="submit-btn">Set Value</button>
-  <button type="button" (click)="patchForm()" class="submit-btn">Patch Value</button>
-</div>

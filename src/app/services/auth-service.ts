@@ -21,10 +21,12 @@ export class AuthService {
         const expirationDate = new Date(decoded.exp *1000);
         const loggedUser = new UserModel(
           decoded.email,
-           decoded.id, 
+          decoded.id, 
           response.token, 
-          expirationDate);
-
+          expirationDate,
+          decoded.favBooks || [], // Add favBooks (default to empty array)
+          decoded.role || 'user'  // Add role (default to 'user')
+        );
 
         this.user.next(loggedUser); 
 
@@ -64,7 +66,9 @@ export class AuthService {
             decoded.email,
             decoded.id,
             response.token,
-            expirationDate
+            expirationDate,
+            decoded.favBooks || [], 
+            decoded.role || 'user'  
           );
           this.user.next(loggedUser);
           localStorage.setItem('userData', JSON.stringify(loggedUser));
@@ -84,7 +88,15 @@ export class AuthService {
 
     const userData = JSON.parse(userDataString);
 
-    const u = new UserModel(userData.email, userData.id, userData._token, new Date (userData.__expiresIn),userData.favBooks || []);
+    const u = new UserModel(
+      userData.email, 
+      userData.id, 
+      userData._token, 
+      new Date(userData.__expiresIn),
+      userData.favBooks || [],
+      userData.role || 'user'
+    );
+    
     if (u.token){
       this.user.next(u);
     }

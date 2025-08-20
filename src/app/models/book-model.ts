@@ -3,12 +3,14 @@ export interface Book {
   title: string;
   language: string;
   createdAt?: string;
-  authors: string[];
-  genre: string[];
+  authors?: string[] ;
+  genres?: string[] ;
   description?: string;
   pageCount: number;
   ratings?: number;
   totalRatings?: number;
   publicationYear: number;
   coverImage: string; 
+  isFavorite?: boolean;
 }
+

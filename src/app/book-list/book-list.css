@@ -1,6 +1,6 @@
 .title {
   text-align: center;
-  color: #d63384;
+  color: #228b22;
   font-size: 2rem;
   margin-bottom: 15px;
 }
@@ -9,7 +9,7 @@
   display: block;
   margin: 0 auto 20px;
   padding: 10px 15px;
-  background-color: #ff85a2;
+  background-color: #90ee90;
   border: none;
   border-radius: 8px;
   color: white;
@@ -18,7 +18,7 @@
   transition: 0.3s;
 }
 .add-btn:hover {
-  background-color: #d63384;
+  background-color: #228b22;
 }
 
 .book-grid {
@@ -29,10 +29,10 @@
 }
 
 .book-card {
-  background: #fff0f5;
+  background: #f0fff0;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 128, 0, 0.2);
   transition: transform 0.3s ease;
 }
 .book-card:hover {
@@ -51,8 +51,9 @@
 
 .book-info h3 {
   margin: 0;
-  color: #d63384;
+  color: #228b22;
 }
+
 .year {
   font-size: 0.9rem;
   color: #888;
@@ -64,15 +65,6 @@
   color: #555;
 }
 
-.available {
-  color: green;
-  font-weight: bold;
-}
-.unavailable {
-  color: red;
-  font-weight: bold;
-}
-
 .btn-group {
   display: flex;
   gap: 8px;
@@ -81,7 +73,8 @@
 }
 
 .update-btn,
-.delete-btn {
+.delete-btn,
+.addtofav-btn {
   padding: 6px 12px;
   border-radius: 6px;
   font-size: 0.9rem;
@@ -92,17 +85,29 @@
 }
 
 .update-btn {
-  background-color: #ffd6e0;
-  color: #d63384;
+  background-color: #c1e1c1;
+  color: #228b22;
 }
 .update-btn:hover {
-  background-color: #ffc0cb;
+  background-color: #a9d6a9;
 }
 
 .delete-btn {
-  background-color: #ffe4e1;
-  color: #ff4d6d;
+  background-color: #e0e7e0;
+  color: #006400;
 }
 .delete-btn:hover {
-  background-color: #ffb6c1;
+  background-color: #c8d9c8;
+}
+
+.addtofav-btn {
+  background-color: #32cd32; /* Lime green */
+  color: white;
+}
+.addtofav-btn:hover {
+  background-color: #228b22; /* Darker green on hover */
+}
+.addtofav-btn:disabled {
+  background-color: #d3d3d3; /* Grey when disabled */
+  cursor: not-allowed;
 }

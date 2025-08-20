@@ -1,0 +1,15 @@
+<div class="container">
+  <header>Book Hub</header>
+  <div class="error" *ngIf="error">{{ error }}</div>
+  <div class="book-list" *ngIf="books.length">
+    <div class="book-item" *ngFor="let book of books">
+      <img [src]="'http://localhost:5000/uploads/books/' + book.coverImage" alt="Cover">
+      <h3>{{ book.title }}</h3>
+      <p>by {{ book.authors?.join(', ') }}</p>
+      <button class="btn" [routerLink]="['/books', book._id]">View Details</button>
+      <button class="btn" (click)="toggleFavorite(book._id)" *ngIf="isAuthenticated">
+        {{ isFavorite(book._id) ? 'Remove from Favorites' : 'Add to Favorites' }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,142 @@
+<section class="contact-container">
+  <div class="contact-header">
+    <h1>Get in Touch</h1>
+    <p class="contact-subtitle">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+  </div>
+
+  <div class="contact-content">
+    <div class="contact-info">
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="info-content">
+          <h3>Email Us</h3>
+          <p>support@bookhub.com</p>
+          <p>info@bookhub.com</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div class="info-content">
+          <h3>Call Us</h3>
+          <p>+1 (555) 123-4567</p>
+          <p>Mon-Fri: 9AM-5PM EST</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="info-content">
+          <h3>Visit Us</h3>
+          <p>123 Library Lane</p>
+          <p>Bookville, BK 12345</p>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-icon">
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="info-content">
+          <h3>Response Time</h3>
+          <p>Typically within 24 hours</p>
+          <p>Emergency: 2-4 hours</p>
+        </div>
+      </div>
+    </div>
+
+    <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name" 
+            placeholder="Enter your full name"
+            [class.error]="contactForm.get('name')?.invalid && contactForm.get('name')?.touched"
+          />
+          <div class="error-message" *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+            Please enter your name
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            placeholder="your.email@example.com"
+            [class.error]="contactForm.get('email')?.invalid && contactForm.get('email')?.touched"
+          />
+          <div class="error-message" *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+            Please enter a valid email address
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="subject">Subject *</label>
+        <input 
+          type="text" 
+          id="subject" 
+          formControlName="subject" 
+          placeholder="What is this regarding?"
+          [class.error]="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched"
+        />
+        <div class="error-message" *ngIf="contactForm.get('subject')?.invalid && contactForm.get('subject')?.touched">
+          Please enter a subject
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message *</label>
+        <textarea 
+          id="message" 
+          formControlName="message" 
+          rows="5" 
+          placeholder="How can we help you today?"
+          [class.error]="contactForm.get('message')?.invalid && contactForm.get('message')?.touched"
+        ></textarea>
+        <div class="error-message" *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+          Please enter your message (minimum 10 characters)
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="checkbox-label">
+          <input type="checkbox" formControlName="newsletter" />
+          <span class="checkmark"></span>
+          Subscribe to our newsletter for updates and new features
+        </label>
+      </div>
+
+      <button 
+        type="submit" 
+        class="submit-btn"
+        [disabled]="contactForm.invalid || loading"
+      >
+        <span *ngIf="!loading">Send Message</span>
+        <span *ngIf="loading">Sending...</span>
+        <i class="fas" [class.fa-paper-plane]="!loading" [class.fa-spinner]="loading" [class.fa-spin]="loading"></i>
+      </button>
+
+      <div class="success-message" *ngIf="submitted && !error">
+        <i class="fas fa-check-circle"></i>
+        Thank you! Your message has been sent successfully.
+      </div>
+
+      <div class="error-message" *ngIf="error">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ error }}
+      </div>
+    </form>
+  </div>
+</section>

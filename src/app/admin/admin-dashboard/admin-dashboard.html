@@ -1,0 +1,57 @@
+<div class="admin-dashboard">
+  <h1>Admin Dashboard</h1>
+  
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+  
+  <div class="dashboard-stats">
+    <div class="stat-card">
+      <h3>Total Books</h3>
+      <p class="stat-number">{{ totalBooks }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Total Users</h3>
+      <p class="stat-number">{{ totalUsers }}</p>
+    </div>
+    <div class="stat-card">
+      <h3>Recent Additions</h3>
+      <p class="stat-number">{{ recentBooks.length }}</p>
+    </div>
+  </div>
+  
+  <div class="admin-actions">
+    <h2>Quick Actions</h2>
+    <div class="action-buttons">
+      <button class="btn btn-primary" routerLink="/admin/addbook">Add New Book</button>
+      <button class="btn btn-secondary" routerLink="/admin/users">Manage Users</button>
+      <button class="btn btn-info" routerLink="/admin/categories">Manage Categories</button>
+     
+    </div>
+  </div>
+  
+  <div class="recent-books">
+    <div class="card-header">
+      <h2>Recently Added Books</h2>
+    </div>
+    
+    <div *ngIf="loading" class="loading">
+      Loading dashboard data...
+    </div>
+    
+    <div class="books-grid" *ngIf="!loading">
+      <div class="book-card" *ngFor="let book of recentBooks">
+        <h4>{{ book.title }}</h4>
+        <p>by {{ book.authors?.join(', ') }}</p>
+        
+        <div class="action-buttons">
+          <button class="btn btn-primary" [routerLink]="['/books', book._id]">View Details</button>
+          <button class="btn btn-secondary" [routerLink]="['/admin/updatebook', book._id]">Edit</button>
+        </div>
+      </div>
+    </div>
+    
+    <div *ngIf="!loading && recentBooks.length === 0" class="text-center mt-20">
+      <p>No books found. Add your first book!</p>
+      <button class="btn btn-primary" routerLink="/admin/addbook">Add New Book</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="admin-container">
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <h2>Admin Panel</h2>
+      <p class="admin-user">Welcome, Admin</p>
+    </div>
+    
+    <ul>
+      <li><a routerLink="/admin/dashboard" routerLinkActive="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+      <li><a routerLink="/admin/addbook" routerLinkActive="active"><i class="fas fa-plus-circle"></i> Add Book</a></li>
+      <li><a routerLink="/books" routerLinkActive="active"><i class="fas fa-book"></i> View Books</a></li>
+      <li><a routerLink="/books" [queryParams]="{favorites: true}" routerLinkActive="active"><i class="fas fa-heart"></i> Favorites</a></li>
+
+      <li><a (click)="logout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+    </ul>
+  </nav>
+  
+ 
+    <div class="content-body">
+      <router-outlet></router-outlet>
+    </div>
+  </div>

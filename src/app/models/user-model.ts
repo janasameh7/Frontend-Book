@@ -3,7 +3,8 @@ export class UserModel {
         public id:string, 
         private _token: string,
          private __expiresIn: Date,
-         public favBooks: string[] = []
+         public favBooks: string[] = [],
+         public role: string
     ){}
 
     get token(): string | null{

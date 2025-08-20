@@ -1,3 +1,4 @@
+
 <h1 class="title">📚 Book List</h1>
 
 <button class="add-btn" (click)="addBook()">Add Book</button>
@@ -5,22 +6,23 @@
 <div class="book-grid">
   @for (book of books; track book._id; let i = $index) {
     <div class="book-card">
-      @if (book.coverImage) {
-        <img class="book-img" [src]="'http://localhost:5000/uploads/' + book.coverImage" alt="{{ book.title }}" />
-      }
+      <img class="book-img" [src]="book.coverImage ? '/uploads/' + book.coverImage : 'default-image.jpg'" alt="{{ book.title }}">
       <div class="book-info">
         <h3>{{ book.title }} ({{ book.publicationYear }})</h3>
-        <p class="description">{{ book.description }}</p>
-        <p>Language: {{ book.language }}</p>
-        <p>Authors: {{ book.authors.join(", ") }}</p>
-        <p>Genre: {{ book.genre.join(", ") }}</p>
-        <p>Page Count: {{ book.pageCount }}</p>
-        <p>Ratings: {{ book.ratings }} / 5 ({{ book.totalRatings }} reviews)</p>
+        <div class="year">{{ book.language }} • {{ book.pageCount }} pages</div>
+        <div class="description">{{ book.description || 'No description available' }}</div>
+        <div class="ratings">⭐ {{ book.ratings || 0 }} ({{ book.totalRatings || 0 }} ratings)</div>
+        <div class="genres">Genres: {{ book.genre.join(", ") }}</div>
+        <div class="authors">Authors: {{ book.authors.join(", ") }}</div>
+        <div *ngIf="book.createdAt" class="year">Added: {{ book.createdAt | date:'medium' }}</div>
         <div class="btn-group">
           <button class="update-btn" (click)="updateBook(book._id, i)">Update</button>
           <button class="delete-btn" (click)="deleteBook(book._id, i)">Delete</button>
+          <button class="addtofav-btn" (click)="addToFavorites(book._id, i)" [disabled]="!isLoggedIn()">Add to Favorites</button>
         </div>
       </div>
     </div>
   }
 </div>
+
+<div *ngIf="error" class="error-message">{{ error }}</div>

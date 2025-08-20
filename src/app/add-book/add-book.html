@@ -1,0 +1,165 @@
+<div class="container">
+  <header>
+    <div>
+      <div class="title">Book Form</div>
+      <p class="lead">
+        Fill in the book details. Fields marked with
+        <span class="req">*</span> are required.
+      </p>
+    </div>
+  </header>
+
+  <form aria-label="Book form" [formGroup]="addBookForm" (ngSubmit)="onSubmit()">
+    <!-- Basic Info -->
+    <section class="card">
+      <h2>Basic Information</h2>
+      <div class="fields">
+        <div class="field span-6">
+          <label for="title">Title <span class="req">*</span></label>
+          <input id="title" name="title" type="text" placeholder="e.g., The Social Network" formControlName="title"/>
+          <div class="hint">Book title as shown to users.</div>
+          @if(addBookForm.get('title')?.invalid && addBookForm.get('title')?.touched){
+            <small>
+                *Book title is required (minimum 3 characters, maximum 100 characters)
+            </small>
+          }
+        </div>
+
+        <div class="field span-3">
+          <label for="language">Language <span class="req">*</span></label>
+          <input id="language" name="language" type="text" placeholder="e.g., English" formControlName="language"/>
+          @if(addBookForm.get('language')?.invalid && addBookForm.get('language')?.touched){
+            @if (addBookForm.get('language')?.errors?.['required']){
+            <small>
+                *Book language is required 
+            </small>
+          }
+          @if(addBookForm.get('language')?.errors?.['invalidLanguage']){
+            <small>
+                *Book must be one of: 'english','arabic', 'spanish', 'french',
+                'hindi', 'chinese', 'japanese','korean','other'
+            </small>
+          }
+        }
+        </div>
+
+        <div class="field span-3">
+          <label for="publicationYear">Publication Year <span class="req">*</span></label>
+          <input id="publicationYear" name="publicationYear" type="number" inputmode="numeric" placeholder="e.g., 2010" formControlName="publicationYear"/>
+          @if(addBookForm.get('publicationYear')?.invalid && addBookForm.get('publicationYear')?.touched){
+            <small>
+                *Publication Year is required 
+            </small>
+          }
+        </div>
+
+        
+
+        <div class="field span-8">
+          <label for="description">Description <span class="req">*</span></label>
+          <textarea id="description" name="description" placeholder="Short synopsis..." formControlName="description"></textarea>
+          @if(addBookForm.get('description')?.invalid && addBookForm.get('description')?.touched){  
+            <small>
+                *Description is required 
+            </small>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- People & Genres -->
+    <section class="card">
+      <h2>People & Genres</h2>
+      <div class="fields">
+        <div class="field span-4">
+          <label for="authors">Authors <span class="req">*</span></label>
+          <input id="authors" name="authors" type="text" placeholder="Comma-separated (e.g., Ben Mezrich)" formControlName="authors" />
+          @if(addBookForm.get('authors')?.invalid && addBookForm.get('authors')?.touched){     
+            <small>
+                *Authors are required 
+            </small>
+          }
+          <div class="hint">Use commas to separate multiple names.</div>
+        </div>
+
+        <div class="field span-4">
+          <label for="genres">Genres <span class="req">*</span></label>
+          <input id="genres" name="genres" type="text" placeholder="Comma-separated (e.g., Biography, Drama)" formControlName="genres"/>
+          @if(addBookForm.get('genres')?.invalid && addBookForm.get('genres')?.touched){
+            <small>
+                *Genres are required 
+            </small>
+          }
+          <div class="hint">List at least one genre.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Media & Links -->
+    <section class="card">
+      <h2>Media</h2>
+      <div class="fields">
+        <div class="field span-6">
+          <label for="coverImage">Cover Image <span class="req">*</span></label>
+          <input id="coverImage" name="coverImage" type="file" accept="image/*" formControlName="coverImage" (change)="onFileSelected($event)" />
+          <div class="hint">Upload an image file (jpg|png|gif|jpeg|webp).</div>
+          @if(addBookForm.get('coverImage')?.invalid && addBookForm.get('coverImage')?.touched){
+            @if(addBookForm.get('coverImage')?.errors?.['required']){
+              <small>
+                  *Cover Image is required 
+              </small>
+            }
+            @if(addBookForm.get('coverImage')?.errors?.['pattern']){
+              <small>
+                  *Cover Image is invalid pattern
+              </small>
+            }
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics & Availability -->
+    <section class="card">
+      <h2>Metrics</h2>
+      <div class="fields">
+        <div class="field span-3">
+          <label for="pageCount">Page Count <span class="req">*</span></label>
+          <input id="pageCount" name="pageCount" type="number" placeholder="e.g., 120" formControlName="pageCount"/>
+          @if(addBookForm.get('pageCount')?.invalid && addBookForm.get('pageCount')?.touched){
+            @if(addBookForm.get('pageCount')?.errors?.['required']){
+              <small>
+                  *Page Count is required (minimum 1)
+              </small>
+            }
+          }
+        </div>
+
+        <div class="field span-3">
+          <label for="ratings">Average Rating (0–10)</label>
+          <input id="ratings" name="ratings" type="number" placeholder="e.g., 4.3" formControlName="ratings"/>
+        </div>
+
+        <div class="field span-3">
+          <label for="totalRatings">Total Ratings </label>
+          <input id="totalRatings" name="totalRatings" type="number" placeholder="e.g., 1500000" formControlName="totalRatings"/>
+        </div>
+
+        
+
+        <div class="field span-4">
+          <label for="createdAt">Created At</label>
+          <input id="createdAt" name="createdAt" type="datetime-local" formControlName="createdAt" />
+        </div>
+
+        
+      </div>
+    </section>
+
+    <div class="actions">
+      <button type="button" (click)="setBook()">Set Value</button>
+      <button type="reset" class="btn ghost">Clear</button>
+      <button type="submit" class="btn primary">Save Book</button>
+    </div>
+  </form>
+</div>

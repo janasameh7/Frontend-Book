@@ -1,0 +1,71 @@
+<div class="book-details-container">
+  <div class="loading" *ngIf="loading">Loading book details...</div>
+  
+  <div class="error-message" *ngIf="error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ error }}
+  </div>
+
+  <div class="book-details" *ngIf="book && !loading">
+    <div class="cover">
+      <img [src]="'http://localhost:5000/uploads/books/' + book.coverImage" alt="{{ book.title }} cover">
+    </div>
+    
+    <div class="info">
+      <h1>{{ book.title }}</h1>
+
+      
+      <div class="authors">
+        <strong>Authors:</strong> {{ book.authors ? book.authors.join(', ') : 'Unknown' }}
+      </div>
+      
+      <div class="ratings" *ngIf="book.ratings">
+        <i class="fas fa-star"></i> {{ book.ratings }} ({{ book.totalRatings || 0 }} ratings)
+      </div>
+      
+      <div class="description">
+        <p>{{ book.description }}</p>
+      </div>
+      
+      <div class="book-meta">
+        <div><strong>Language:</strong> {{ book.language || 'Unknown' }}</div>
+        <div><strong>Publication Year:</strong> {{ book.publicationYear || 'Unknown' }}</div>
+        <div><strong>Page Count:</strong> {{ book.pageCount || 'Unknown' }}</div>
+        <div><strong>Added:</strong> {{ book.createdAt | date:'mediumDate' }}</div>
+      </div>
+      
+      <div class="genre" *ngIf="book.genres && book.genres.length">
+        <strong>Genres:</strong>
+        <span class="tag" *ngFor="let genre of book.genres">{{ genre }}</span>
+      </div>
+      
+      <div class="actions">
+        <button class="btn btn-favorite" (click)="toggleFavorite()" *ngIf="isAuthenticated">
+          <i class="fas" [class.fa-heart]="!isFavorite" [class.fa-heart-broken]="isFavorite"></i>
+          {{ isFavorite ? 'Remove from Favorites' : 'Add to Favorites' }}
+        </button>
+        
+        <button class="btn btn-edit" [routerLink]="['/admin/updatebook', book._id]" *ngIf="isAuthenticated">
+          <i class="fas fa-edit"></i> Edit Book
+        </button>
+        
+        <button class="btn btn-delete" (click)="deleteBook()" *ngIf="isAuthenticated">
+          <i class="fas fa-trash"></i> Delete Book
+        </button>
+        
+        <button class="btn btn-back" routerLink="/books">
+          <i class="fas fa-arrow-left"></i> Back to Books
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="not-found" *ngIf="!book && !loading && !error">
+    <i class="fas fa-book-open"></i>
+    <h2>Book Not Found</h2>
+    <p>The book you're looking for doesn't exist or may have been removed.</p>
+    <button class="btn btn-back" routerLink="/books">
+      <i class="fas fa-arrow-left"></i> Back to Books
+    </button>
+  </div>
+</div>

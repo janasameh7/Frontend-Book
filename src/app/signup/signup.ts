@@ -1,87 +1,123 @@
-import { Component, inject, ViewChild } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { AuthService } from '../services/auth-service';
+import { CommonModule } from '@angular/common';
+
+interface SignupForm {
+  name: FormControl<string | null>;
+  email: FormControl<string | null>;
+  password: FormControl<string | null>;
+  confirmPassword: FormControl<string | null>;
+  photo: FormControl<File | null>;
+}
 
 @Component({
   selector: 'app-signup',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './signup.html',
   styleUrl: './signup.css'
 })
 export class Signup {
-  name: string = '';
-  email: string = '';
-  password: string = '';
-  confirmPassword: string = '';
-  selectedFileName: string = '';
+  signupForm: FormGroup<SignupForm>;
   selectedFile: File | null = null;
-  passwordMisMatch: boolean = false;
+  selectedFileName: string = '';
   error: string | null = null;
-
   private authService = inject(AuthService);
 
-  @ViewChild('signUpForm') signUpForm!: NgForm;
+  constructor() {
+    this.signupForm = new FormGroup<SignupForm>({
+      name: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [Validators.required, Validators.minLength(8)]),
+      confirmPassword: new FormControl(null, [Validators.required]),
+      photo: new FormControl(null)
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const form = control as FormGroup;
+    const password = form.get('password')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+    return password === confirmPassword ? null : { mismatch: true };
+  };
 
   onFileSelected(e: Event) {
     const input = e.target as HTMLInputElement;
-    this.selectedFile = input.files?.[0] || null;
-    this.selectedFileName = this.selectedFile?.name || '';
+    if (input?.files?.length) {
+      this.selectedFile = input.files[0];
+      this.selectedFileName = this.selectedFile.name;
+      this.signupForm.patchValue({ photo: this.selectedFile });
+    } else {
+      this.selectedFile = null;
+      this.selectedFileName = '';
+      this.signupForm.patchValue({ photo: null });
+    }
   }
 
   onSubmit() {
-    if (!this.signUpForm) {
-      console.error('signUpForm is undefined');
-      this.error = 'Form initialization failed';
-      return;
-    }
-    if (this.signUpForm.invalid) {
-      this.signUpForm.form.markAllAsTouched();
+    console.log('Signup Form valid:', this.signupForm.valid);
+    console.log('Signup Form errors:', this.signupForm.errors);
+    Object.keys(this.signupForm.controls).forEach(key => {
+      const control = this.signupForm.get(key);
+      console.log(`Control ${key}:`, {
+        value: control?.value,
+        valid: control?.valid,
+        errors: control?.errors
+      });
+    });
+
+    if (this.signupForm.invalid) {
+      this.signupForm.markAllAsTouched();
       this.error = 'Please fill all required fields correctly';
       return;
     }
 
-    const { name, password, confirmPassword, email } = this.signUpForm.value;
-    if (password !== confirmPassword) {
-      this.passwordMisMatch = true;
-      this.error = 'Passwords do not match';
-      return;
+    const formValue = this.signupForm.value;
+    const fd = new FormData();
+    fd.append('name', formValue.name || '');
+    fd.append('email', formValue.email || '');
+    fd.append('password', formValue.password || '');
+    if (this.selectedFile) {
+      fd.append('photo', this.selectedFile);
     }
 
-    const fd = new FormData();
-    fd.append('name', name);
-    fd.append('email', email);
-    fd.append('password', password);
-    if (this.selectedFile) fd.append('photo', this.selectedFile);
+    console.log('Sending Signup FormData:');
+    for (const pair of fd.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
 
     this.authService.signup(fd).subscribe({
       next: (user) => {
         console.log('Signup successful:', user);
-        this.signUpForm.reset();
+        this.signupForm.reset();
         this.selectedFile = null;
         this.selectedFileName = '';
-        this.passwordMisMatch = false;
         this.error = null;
       },
       error: (err) => {
         console.error('Signup error:', err);
-        this.error = err.message || 'An error occurred during signup';
-      },
+        this.error = err.error?.message || 'An error occurred during signup';
+      }
     });
   }
 
   setForm() {
-    this.signUpForm.form.setValue({
+    this.signupForm.setValue({
       name: 'Jane',
       email: 'jane@example.com',
       password: '12345678',
       confirmPassword: '12345678',
+      photo: null
     });
+    this.selectedFile = null;
+    this.selectedFileName = '';
   }
 
   patchForm() {
-    this.signUpForm.form.patchValue({
-      // Add partial updates if needed
+    this.signupForm.patchValue({
+      name: 'Jane',
+      email: 'jane@example.com'
     });
   }
 }

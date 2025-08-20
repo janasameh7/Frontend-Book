@@ -1,0 +1,121 @@
+<div class="container">
+  <header>
+    <div class="title">Update Book Form</div>
+    <p class="lead">Update the book details. Fields marked with <span class="req">*</span> are required.</p>
+  </header>
+
+  <form [formGroup]="updateBookForm" (ngSubmit)="onSubmit()">
+    <div class="card">
+      <h2>Basic Information</h2>
+      <div class="fields">
+        <div class="field">
+          <label>Title <span class="req">*</span></label>
+          <input formControlName="title" placeholder="Book title">
+          <small *ngIf="updateBookForm.get('title')?.invalid && updateBookForm.get('title')?.touched">
+            *Book title is required (minimum 3 characters, maximum 100 characters)
+          </small>
+        </div>
+        <div class="field">
+          <label>Language <span class="req">*</span></label>
+          <select formControlName="language">
+            <option value="english">english</option>
+            <option value="arabic">arabic</option>
+            <option value="french">french</option>
+             <option value="korean">korean</option>
+            <option value="spanish">spanish</option>
+            <option value="chinese">chinese</option>
+            <option value="japanese">japanese</option>
+            <option value="hindi">hindi</option>
+            
+  
+          </select>
+          <small *ngIf="updateBookForm.get('language')?.invalid && updateBookForm.get('language')?.touched">
+            *Book language is required
+          </small>
+        </div>
+        <div class="field">
+          <label>Publication Year <span class="req">*</span></label>
+          <input formControlName="publicationYear" type="number" placeholder="Publication Year">
+          <small *ngIf="updateBookForm.get('publicationYear')?.invalid && updateBookForm.get('publicationYear')?.touched">
+            *Publication Year is required
+          </small>
+        </div>
+        <div class="field">
+          <label>Description <span class="req">*</span></label>
+          <textarea formControlName="description" placeholder="Description"></textarea>
+          <small *ngIf="updateBookForm.get('description')?.invalid && updateBookForm.get('description')?.touched">
+            *Description is required
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>People & Genres</h2>
+      <div class="fields">
+        <div class="field">
+          <label>Authors <span class="req">*</span></label>
+          <input formControlName="authors" placeholder="Authors">
+          <small *ngIf="updateBookForm.get('authors')?.invalid && updateBookForm.get('authors')?.touched">
+            *Authors are required
+          </small>
+          <div class="hint">Use commas to separate multiple names.</div>
+        </div>
+        <div class="field">
+          <label>Genres <span class="req">*</span></label>
+          <input formControlName="genres" placeholder="Genres">
+          <small *ngIf="updateBookForm.get('genres')?.invalid && updateBookForm.get('genres')?.touched">
+            *Genres are required
+          </small>
+          <div class="hint">List at least one genre.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Media</h2>
+      <div class="fields">
+        <div class="field">
+          <label>Cover Image</label>
+          <input type="file" (change)="onFileSelected($event)" accept="image/*">
+          <small *ngIf="updateBookForm.get('coverImage')?.invalid && updateBookForm.get('coverImage')?.touched">
+            *Cover Image must be jpg, png, gif, jpeg, or webp
+          </small>
+          <div class="hint">Upload an image file (jpg|png|gif|jpeg|webp).</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Metrics</h2>
+      <div class="fields">
+        <div class="field">
+          <label>Page Count <span class="req">*</span></label>
+          <input formControlName="pageCount" type="number" placeholder="Page Count">
+          <small *ngIf="updateBookForm.get('pageCount')?.invalid && updateBookForm.get('pageCount')?.touched">
+            *Page Count is required (minimum 1)
+          </small>
+        </div>
+        <div class="field">
+          <label>Average Rating (0–10)</label>
+          <input formControlName="ratings" type="number" step="0.1" placeholder="Average Rating">
+        </div>
+        <div class="field">
+          <label>Total Ratings</label>
+          <input formControlName="totalRatings" type="number" placeholder="Total Ratings">
+        </div>
+        <div class="field">
+          <label>Created At</label>
+          <input formControlName="createdAt" type="datetime-local" placeholder="Created At">
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn ghost" type="button" (click)="router.navigate(['/admin/dashboard'])">Cancel</button>
+      <button class="btn primary" type="submit" [disabled]="updateBookForm.invalid">Update Book</button>
+    </div>
+  </form>
+
+  <div class="error-message" *ngIf="error">{{ error }}</div>
+</div>

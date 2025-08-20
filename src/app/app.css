@@ -25,3 +25,14 @@
     background-color: greenyellow;
 }
 
+ .container {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(241, 21, 21, 0.05);
+  margin-top: 50px;
+}
+
+div {
+  width: 75%;
+}
+

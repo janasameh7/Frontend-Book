@@ -1,0 +1,93 @@
+<div class="books-container">
+  <div class="books-header">
+    <h1>{{ isFavoritesView ? 'Favorite Books' : 'All Books' }}</h1>
+    <div class="books-actions">
+      <button class="btn btn-primary" routerLink="/admin/addbook" *ngIf="isAuthenticated">
+        <i class="fas fa-plus"></i> Add New Book
+      </button>
+    </div>
+  </div>
+
+  <!-- Add search section -->
+  <div class="search-section" *ngIf="!isFavoritesView">
+    <div class="search-controls">
+      <div class="search-input-group">
+        <input 
+          type="text" 
+          [(ngModel)]="searchQuery" 
+          (keyup.enter)="searchBooks()" 
+          placeholder="Search books..." 
+          class="search-input"
+        >
+        <select [(ngModel)]="searchField" class="search-select">
+          <option value="title">By Title</option>
+          <option value="author">By Author</option>
+        </select>
+        <button (click)="searchBooks()" class="btn btn-search">
+          <i class="fas fa-search"></i> Search
+        </button>
+        <button (click)="clearSearch()" class="btn btn-clear" *ngIf="isSearching || searchQuery">
+          <i class="fas fa-times"></i> Clear
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">Loading books...</div>
+  
+  <div class="error-message" *ngIf="error">
+    <i class="fas fa-exclamation-circle"></i>
+    {{ error }}
+  </div>
+
+  <!-- Show search results info -->
+  <div class="search-results-info" *ngIf="isSearching && filteredBooks.length > 0">
+    <p>Found {{ filteredBooks.length }} result(s) for "{{ searchQuery }}"</p>
+  </div>
+
+  <div class="books-grid" *ngIf="filteredBooks && filteredBooks.length > 0 && !loading">
+    <div class="book-card" *ngFor="let book of filteredBooks">
+      <div class="book-cover">
+        <img [src]="'http://localhost:5000/uploads/books/' + book.coverImage" alt="{{ book.title }} cover">
+      </div>
+      
+      <div class="book-info">
+        <h3 class="book-title">{{ book.title }}</h3>
+        <p class="book-authors">{{ book.authors ? book.authors.join(', ') : 'Unknown Author' }}</p>
+        
+        <div class="book-meta">
+          <span class="book-year">{{ book.publicationYear || 'Unknown' }}</span>
+          <span class="book-pages">{{ book.pageCount || 'Unknown' }} pages</span>
+          <span class="book-rating" *ngIf="book.ratings">
+            <i class="fas fa-star"></i> {{ book.ratings }}
+          </span>
+        </div>
+        
+        <div class="book-actions">
+          <button class="btn btn-view" [routerLink]="['/books', book._id]">
+            <i class="fas fa-eye"></i> View Details
+          </button>
+          
+          <button class="btn btn-favorite" (click)="toggleFavorite(book)" *ngIf="isAuthenticated">
+            <i class="fas" [class.fa-heart]="!book.isFavorite" [class.fa-heart-broken]="book.isFavorite"></i>
+            {{ book.isFavorite ? 'Remove' : 'Add to Favorites' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="no-books" *ngIf="filteredBooks && filteredBooks.length === 0 && !loading">
+    <i class="fas fa-book-open"></i>
+    <h2>No books found</h2>
+    <p *ngIf="isSearching">No results found for "{{ searchQuery }}". Try a different search term.</p>
+    <p *ngIf="isFavoritesView && !isSearching">You haven't added any books to your favorites yet.</p>
+    <p *ngIf="!isFavoritesView && !isSearching">There are no books in the collection yet.</p>
+    <button class="btn btn-primary" routerLink="/admin/addbook" *ngIf="isAuthenticated && !isFavoritesView && !isSearching">
+      <i class="fas fa-plus"></i> Add Your First Book
+    </button>
+    <button class="btn btn-clear" (click)="clearSearch()" *ngIf="isSearching">
+      <i class="fas fa-arrow-left"></i> Back to All Books
+    </button>
+  </div>
+</div>

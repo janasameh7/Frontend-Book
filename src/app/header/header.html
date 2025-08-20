@@ -1,3 +1,115 @@
-<header>
-    <h1>Header</h1>
-</header>   
+<header class="site-header">
+  <div class="header-container">
+    <div class="header-brand">
+      <a [routerLink]="['/home']" class="brand-logo">
+        <i class="fas fa-book-reader"></i>
+        <span>BookHub</span>
+      </a>
+    </div>
+
+    <nav class="header-nav">
+      <a [routerLink]="['/home']" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      
+      <a [routerLink]="['/books']" class="nav-link" routerLinkActive="active">
+        <i class="fas fa-book"></i>
+        <span>Books</span>
+      </a>
+      
+      <a [routerLink]="['/about']" class="nav-link" routerLinkActive="active">
+        <i class="fas fa-info-circle"></i>
+        <span>About</span>
+      </a>
+      
+      <a [routerLink]="['/contact']" class="nav-link" routerLinkActive="active">
+        <i class="fas fa-envelope"></i>
+        <span>Contact</span>
+      </a>
+
+      @if (isAuthenticated) {
+        <a [routerLink]="['/admin/dashboard']" class="nav-link" routerLinkActive="active">
+          <i class="fas fa-user-shield"></i>
+          <span>Admin</span>
+        </a>
+      }
+    </nav>
+
+    <div class="header-actions">
+      @if (isAuthenticated) {
+        <div class="user-menu">
+          <span class="user-greeting">Hello, {{ userName }}</span>
+          <button (click)="logout()" class="btn btn-logout">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      } @else {
+        <div class="auth-buttons">
+          <a [routerLink]="['/login']" class="btn btn-login">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>Login</span>
+          </a>
+          <a [routerLink]="['/signup']" class="btn btn-signup">
+            <i class="fas fa-user-plus"></i>
+            <span>Sign Up</span>
+          </a>
+        </div>
+      }
+    </div>
+
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+      <i class="fas" [class.fa-bars]="!mobileMenuOpen" [class.fa-times]="mobileMenuOpen"></i>
+    </button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" [class.open]="mobileMenuOpen">
+    <a [routerLink]="['/home']" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    
+    <a [routerLink]="['/books']" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="fas fa-book"></i>
+      <span>Books</span>
+    </a>
+    
+    <a [routerLink]="['/about']" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="fas fa-info-circle"></i>
+      <span>About</span>
+    </a>
+    
+    <a [routerLink]="['/contact']" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="fas fa-envelope"></i>
+      <span>Contact</span>
+    </a>
+
+    @if (isAuthenticated) {
+      <a [routerLink]="['/admin/dashboard']" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+        <i class="fas fa-user-shield"></i>
+        <span>Admin</span>
+      </a>
+      
+      <div class="mobile-user-info">
+        <p>Logged in as {{ userName }}</p>
+        <button (click)="logout()" class="btn btn-logout">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    } @else {
+      <div class="mobile-auth-buttons">
+        <a [routerLink]="['/login']" class="btn btn-login" (click)="closeMobileMenu()">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>Login</span>
+        </a>
+        <a [routerLink]="['/signup']" class="btn btn-signup" (click)="closeMobileMenu()">
+          <i class="fas fa-user-plus"></i>
+          <span>Sign Up</span>
+        </a>
+      </div>
+    }
+  </div>
+</header>
